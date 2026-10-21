@@ -1,13 +1,11 @@
-version: "3.8"
-
 services:
   bitcoind:
-    image: crazymax/bitcoind:latest
+    image: bitcoin/bitcoin:latest
     container_name: lab-bitcoind
     ports:
       - "18443:18443"
     volumes:
-      - lab-bitcoin-data:/root/.bitcoin
+      - lab-bitcoin-data:/home/bitcoin/.bitcoin
     command: >
       bitcoind -regtest
       -rpcuser=clnrpc -rpcpassword=clrpcpass
@@ -15,7 +13,7 @@ services:
       -wallet=lab -printtoconsole
 
   cln-alice:
-    image: elementsproject/lightningd:v24.11
+    image: elementsproject/lightningd:v24.05
     container_name: lab-cln-alice
     depends_on:
       - bitcoind
@@ -31,7 +29,7 @@ services:
       --port=9735 --binding=0.0.0.0 --announce-addr=0.0.0.0:9735
 
   cln-bob:
-    image: elementsproject/lightningd:v24.11
+    image: elementsproject/lightningd:v24.05
     container_name: lab-cln-bob
     depends_on:
       - bitcoind
@@ -47,7 +45,7 @@ services:
       --port=9736 --binding=0.0.0.0 --announce-addr=0.0.0.0:9736
 
   cln-carol:
-    image: elementsproject/lightningd:v24.11
+    image: elementsproject/lightningd:v24.05
     container_name: lab-cln-carol
     depends_on:
       - bitcoind
