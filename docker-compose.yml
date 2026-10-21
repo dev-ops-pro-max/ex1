@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  bitcoind:
+    image: crazymax/bitcoind:latest
+    container_name: lab-bitcoind
+    ports:
+      - "18443:18443"
+    volumes:
+      - lab-bitcoin-data:/root/.bitcoin
+    command: >
+      bitcoind -regtest
+      -rpcuser=clnrpc -rpcpassword=clrpcpass
+      -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0
+      -wallet=lab -printtoconsole
+
+  cln-alice:
+    image: elementsproject/lightningd:v24.11
+    container_name: lab-cln-alice
+    depends_on:
+      - bitcoind
+    volumes:
+      - lab-cln-alice-data:/root/.lightning
+    ports:
+      - "9735:9735"
+    command: >
+      lightningd --network=regtest
+      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning --log-file=/root/.lightning/alice.log
+      --port=9735 --binding=0.0.0.0 --announce-addr=0.0.0.0:9735
+
+  cln-bob:
+    image: elementsproject/lightningd:v24.11
+    container_name: lab-cln-bob
+    depends_on:
+      - bitcoind
+    volumes:
+      - lab-cln-bob-data:/root/.lightning
+    ports:
+      - "9736:9736"
+    command: >
+      lightningd --network=regtest
+      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning --log-file=/root/.lightning/bob.log
+      --port=9736 --binding=0.0.0.0 --announce-addr=0.0.0.0:9736
+
+  cln-carol:
+    image: elementsproject/lightningd:v24.11
+    container_name: lab-cln-carol
+    depends_on:
+      - bitcoind
+    volumes:
+      - lab-cln-carol-data:/root/.lightning
+    ports:
+      - "9737:9737"
+    command: >
+      lightningd --network=regtest
+      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning --log-file=/root/.lightning/carol.log
+      --port=9737 --binding=0.0.0.0 --announce-addr=0.0.0.0:9737
+
+volumes:
+  lab-bitcoin-data:
+  lab-cln-alice-data:
+  lab-cln-bob-data:
+  lab-cln-carol-data:
