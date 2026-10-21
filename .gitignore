@@ -1,0 +1,17 @@
+# Core Lightning / Bitcoin runtime artifacts (per-node, regenerated each lab run)
+lab/nodes/*/lightning-rpc
+lab/nodes/*/lightningd.log
+lab/nodes/*/*.log
+lab/nodes/*/hsm_secret?   # no, keep secrets out; see below
+lab/bitcoin
+
+# Never commit node secrets
+lab/nodes/*/hsm_secret
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
