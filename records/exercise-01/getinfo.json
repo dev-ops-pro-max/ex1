@@ -1,0 +1,33 @@
+{
+   "id": "0317dbb0ff1c431a8567f8bbbccc50f7a2cd8aa0ec82861e555ea82001fca21a20",
+   "alias": "YELLOWWATER",
+   "color": "0317db",
+   "num_peers": 0,
+   "num_pending_channels": 0,
+   "num_active_channels": 0,
+   "num_inactive_channels": 0,
+   "address": [],
+   "binding": [
+      {
+         "type": "ipv6",
+         "address": "::",
+         "port": 19846
+      },
+      {
+         "type": "ipv4",
+         "address": "0.0.0.0",
+         "port": 19846
+      }
+   ],
+   "version": "v24.05-modded",
+   "blockheight": 101,
+   "network": "regtest",
+   "fees_collected_msat": 0,
+   "lightning-dir": "/root/.lightning/regtest",
+   "our_features": {
+      "init": "08a0000a8a59a1",
+      "node": "88a0000a8a59a1",
+      "channel": "",
+      "invoice": "02000002024100"
+   }
+}

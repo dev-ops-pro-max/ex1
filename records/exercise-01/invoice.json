@@ -1,0 +1,14 @@
+{
+   "invoices": [
+      {
+         "label": "coffee-payment",
+         "bolt11": "lnbcrt500u1p4d3pkvsp55x944c0yasfewh7xyuapk4hp05l2zncqk8cyeyj8xjhq6ryceg9spp5pq5xfttc5jsugncgdaguu9m37lsga7ym548tyq5rl9tuzarzvptqdqhgdhkven9v5s9qcted4jkuaqcqp29qxpqysgqxmqxs56x3vwhe2yfnact48um6f5d8aag24s3uy4vksr3dak86l2nsggl7x7fgqr64aqwec0ptkv9h67nj8a46c5e9ll2vkmwc5espsgp73pl2m",
+         "payment_hash": "082864ad78a4a1c44f086f51ce1771f7e08ef89ba54eb20283f957c174626056",
+         "amount_msat": 50000000,
+         "status": "unpaid",
+         "description": "Coffee Payment",
+         "expires_at": 1792578780,
+         "created_index": 1
+      }
+   ]
+}
