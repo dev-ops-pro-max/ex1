@@ -11,54 +11,78 @@ services:
       -rpcuser=clnrpc -rpcpassword=clrpcpass
       -rpcallowip=0.0.0.0/0 -rpcbind=0.0.0.0
       -wallet=lab -printtoconsole
+    healthcheck:
+      test: ["CMD", "bitcoin-cli", "-rpcuser=clnrpc", "-rpcpassword=clrpcpass", "-rpcport=18443", "-regtest", "getblockchaininfo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
   cln-alice:
     image: elementsproject/lightningd:v24.05
     container_name: lab-cln-alice
     depends_on:
-      - bitcoind
+      bitcoind:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - LIGHTNINGD_NETWORK=regtest
     volumes:
       - lab-cln-alice-data:/root/.lightning
     ports:
       - "9735:9735"
     command: >
-      lightningd --network=regtest
-      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
-      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
-      --lightning-dir=/root/.lightning --log-file=/root/.lightning/alice.log
-      --port=9735 --binding=0.0.0.0 --announce-addr=0.0.0.0:9735
+      --bitcoin-rpcuser=clnrpc
+      --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind
+      --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning
+      --network=regtest
+      --disable-plugin=offers
 
   cln-bob:
     image: elementsproject/lightningd:v24.05
     container_name: lab-cln-bob
     depends_on:
-      - bitcoind
+      bitcoind:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - LIGHTNINGD_NETWORK=regtest
     volumes:
       - lab-cln-bob-data:/root/.lightning
     ports:
       - "9736:9736"
     command: >
-      lightningd --network=regtest
-      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
-      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
-      --lightning-dir=/root/.lightning --log-file=/root/.lightning/bob.log
-      --port=9736 --binding=0.0.0.0 --announce-addr=0.0.0.0:9736
+      --bitcoin-rpcuser=clnrpc
+      --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind
+      --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning
+      --network=regtest
+      --disable-plugin=offers
 
   cln-carol:
     image: elementsproject/lightningd:v24.05
     container_name: lab-cln-carol
     depends_on:
-      - bitcoind
+      bitcoind:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - LIGHTNINGD_NETWORK=regtest
     volumes:
       - lab-cln-carol-data:/root/.lightning
     ports:
       - "9737:9737"
     command: >
-      lightningd --network=regtest
-      --bitcoin-rpcuser=clnrpc --bitcoin-rpcpassword=clrpcpass
-      --bitcoin-rpcconnect=bitcoind --bitcoin-rpcport=18443
-      --lightning-dir=/root/.lightning --log-file=/root/.lightning/carol.log
-      --port=9737 --binding=0.0.0.0 --announce-addr=0.0.0.0:9737
+      --bitcoin-rpcuser=clnrpc
+      --bitcoin-rpcpassword=clrpcpass
+      --bitcoin-rpcconnect=bitcoind
+      --bitcoin-rpcport=18443
+      --lightning-dir=/root/.lightning
+      --network=regtest
+      --disable-plugin=offers
 
 volumes:
   lab-bitcoin-data:
